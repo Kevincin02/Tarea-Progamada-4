@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="css/pico.min.css" />
+  <script src="js/jquery.min.js"></script>
+  <title>Tarea Programada 4</title>
+</head>
+
+<body>
+  <main class="container">
+    <h1>Tarea Programada 4</h1>
+    <div class="grid">
+      <article>
+        <header><b>Seleccionador</b></header>
+        <fieldset>
+          <label>
+            <input id="pares" type="checkbox" role="switch" checked />
+            Pares
+          </label>
+          <label>
+            <input id="impares" type="checkbox" role="switch" checked />
+            Impares
+          </label>
+          <label>
+            <input id="primos" type="checkbox" role="switch" checked />
+            Primos
+          </label>
+        </fieldset>
+      </article>
+      <article>
+        <header><b>Números</b></header>
+        <ul id="numeros"></ul>
+      </article>
+    </div>
+  </main>
+  <style>
+    .oculto {
+      display: none;
+    }
+  </style>
+  <script defer>
+    $(document).ready(() => {
+      // Inicio # 1
+      const $numeros = $("#numeros");
+      for (let num = 1; num <= 100; num++) {
+        const clase = num % 2 === 0 ? "par" : "impar";
+        $numeros.append(`<li id="${num}" class="${clase}">${num}</li>`);
+      }
+
+      $("#pares").on("click", function () {
+        const mostrar = $(this).is(":checked");
+        $(".par").toggleClass("oculto");
+      });
+      // Final # 1
+
+      // Inicio # 2
+      $("#impares").on("click", function () {
+        const mostrar = $(this).is(":checked");
+        $(".impar").toggleClass("oculto");
+      });
+      // Final # 2
+
+      // Inicio # 3
+      const limite = 100;
+      const esPrimo = Array(limite + 1).fill(true);
+      esPrimo[0] = esPrimo[1] = false;
+
+      for (let i = 2; i * i <= limite; i++) {
+        if (esPrimo[i]) {
+          for (let j = i * i; j <= limite; j += i) {
+            esPrimo[j] = false;
+          }
+        }
+      }
+
+      // Agregar la clase 'primo' a los elementos <li> que sean primos
+      for (let num = 2; num <= limite; num++) {
+        if (esPrimo[num]) {
+          $(`#${num}`).addClass("primo");
+        }
+      }
+
+      // Activar el switch para mostrar/ocultar los números primos
+      $("#primos").on("click", function () {
+        const mostrar = $(this).is(":checked");
+        $(".primo").toggleClass("oculto", !mostrar);
+      });
+
+
+
+      // Final # 3
+    });
+  </script>
+</body>
+
+</html>
